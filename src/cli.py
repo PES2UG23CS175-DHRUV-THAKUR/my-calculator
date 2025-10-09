@@ -5,7 +5,8 @@ Example: python src/cli.py add 5 3
 
 import sys
 import click
-from calculator import add, subtract, multiply, divide, power, square_root
+# Note the change: 'src.calculator' is used for module imports from the project root.
+from src.calculator import add, subtract, multiply, divide, power, square_root
 
 
 @click.command()
@@ -14,7 +15,18 @@ from calculator import add, subtract, multiply, divide, power, square_root
 @click.argument("num2", type=float, required=False)
 def calculate(operation, num1, num2=None):
     """Simple calculator CLI"""
+    
+    # List of operations that require a second number (binary operations)
+    binary_operations = ["add", "subtract", "multiply", "divide", "power"]
+
     try:
+        # --- Missing Operand Check for Binary Operations ---
+        if operation in binary_operations and num2 is None:
+            # This is the exact error message your tests expect for missing operands
+            click.echo(f"Error: Operation '{operation}' requires two numbers")
+            sys.exit(1)
+
+        # --- Operation Logic ---
         if operation == "add":
             result = add(num1, num2)
         elif operation == "subtract":
@@ -25,7 +37,7 @@ def calculate(operation, num1, num2=None):
             result = divide(num1, num2)
         elif operation == "power":
             result = power(num1, num2)
-        elif operation == "square_root" or operation == "sqrt":
+        elif operation in ("square_root", "sqrt"):
             result = square_root(num1)
         else:
             click.echo(f"Unknown operation: {operation}")
