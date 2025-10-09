@@ -89,7 +89,7 @@ class TestCLIIntegration:
     def test_cli_sqrt_integration(self):
         """Test CLI can perform square root"""
         res = self.run_cli('sqrt', '16')
-        assert res.exit_code == 0
+        assert res.returncode == 0 # Changed from exit_code
         
         # FIX: Check only the last line of stdout to ignore verbose output
         output_lines = res.output.strip().split('\n')
