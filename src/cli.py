@@ -2,9 +2,10 @@
 Command Line Interface for Calculator
 Example: python src/cli.py add 5 3
 """
+
 import sys
 import click
-from src.calculator import add, subtract, multiply, divide, power, square_root
+from calculator import add, subtract, multiply, divide, power, square_root
 
 
 @click.command()
@@ -24,7 +25,7 @@ def calculate(operation, num1, num2=None):
             result = divide(num1, num2)
         elif operation == "power":
             result = power(num1, num2)
-        elif operation in ("square_root", "sqrt"):
+        elif operation == "square_root" or operation == "sqrt":
             result = square_root(num1)
         else:
             click.echo(f"Unknown operation: {operation}")
@@ -39,10 +40,10 @@ def calculate(operation, num1, num2=None):
     except ValueError as e:
         click.echo(f"Error: {e}")
         sys.exit(1)
-    except Exception as e:  # pylint: disable=broad-exception-caught
+    except Exception as e:
         click.echo(f"Unexpected error: {e}")
         sys.exit(1)
 
 
 if __name__ == "__main__":
-    calculate()  # pylint: disable=no-value-for-parameter
+    calculate()
