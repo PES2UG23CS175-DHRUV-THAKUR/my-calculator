@@ -31,8 +31,7 @@ class TestCLIIntegration:
         result = self.run_cli(['sub', '5'])
         assert result.returncode != 0
         
-        # CORRECTED: The CLI prints a specific error message, so we assert against that content.
-        # Original failing line: assert result.stdout.strip().startswith('Unexpected error:')
+        # CORRECTED: Assert against the specific error message found in the terminal output.
         expected_error_message = "Error: Operation 'subtract' requires two numbers"
         assert expected_error_message in result.stdout.strip()
        
